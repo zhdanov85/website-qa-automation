@@ -34,7 +34,7 @@ allure {
     }
     // Configuration for TestNG
     useTestNG() {
-        version = '7.9.0' // Use the same TestNG version as in dependencies
+        // version = '7.9.0' // Removed redundant version specification
     }
     autoconfigure = true
     aspectjweaver = true
