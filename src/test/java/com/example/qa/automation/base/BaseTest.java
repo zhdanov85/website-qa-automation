@@ -79,12 +79,17 @@ public class BaseTest {
     }
 
     protected String cleanLogForGemini(String fullLog) {
-        // 1. Оставляем только последние 2000 символов (самое важное в конце)
+        // 1. Keep only the last 2000 characters (most important at the end)
         String clipped = fullLog.length() > 2000 ? fullLog.substring(fullLog.length() - 2000) : fullLog;
-        // 2. Убираем лишние системные строки (пример для Playwright)
-        return clipped
-                .replaceAll("(?m)^.*Waiting for.*$", "")
-                .replaceAll("(?m)^.*Attempting to.*$", "")
-                .trim();
+
+        // 2. Remove unnecessary system lines based on configurable patterns
+        String patternsString = ConfigReader.getInstance().getProperty("log.clean.patterns", "");
+        if (!patternsString.isEmpty()) {
+            String[] patterns = patternsString.split(",");
+            for (String pattern : patterns) {
+                clipped = clipped.replaceAll(pattern.trim(), "");
+            }
+        }
+        return clipped.trim();
     }
 }
