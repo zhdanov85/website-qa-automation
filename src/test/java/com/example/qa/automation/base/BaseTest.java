@@ -77,4 +77,14 @@ public class BaseTest {
     public Page getPage() {
         return page.get();
     }
+
+    protected String cleanLogForGemini(String fullLog) {
+        // 1. Оставляем только последние 2000 символов (самое важное в конце)
+        String clipped = fullLog.length() > 2000 ? fullLog.substring(fullLog.length() - 2000) : fullLog;
+        // 2. Убираем лишние системные строки (пример для Playwright)
+        return clipped
+                .replaceAll("(?m)^.*Waiting for.*$", "")
+                .replaceAll("(?m)^.*Attempting to.*$", "")
+                .trim();
+    }
 }
