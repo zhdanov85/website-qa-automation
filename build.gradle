@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Playwright
+    implementation 'com.microsoft.playwright:playwright:1.40.0'
+
+    // TestNG
+    testImplementation 'org.testng:testng:7.9.0'
+}
+
+application {
+    mainClass = 'App' // Keep this for now, it's a java-application project
+}
+
+test {
+    useTestNG()
+    // Ensure tests are run even if they fail to produce a report
+    ignoreFailures = true
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
